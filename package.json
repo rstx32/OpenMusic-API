@@ -12,7 +12,8 @@
   "description": "open music api - dicoding",
   "main": "server.js",
   "scripts": {
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "migrate": "node-pg-migrate"
   },
   "author": "rstx",
   "license": "ISC",
