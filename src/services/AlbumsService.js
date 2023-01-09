@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 const { nanoid } = require('nanoid')
 const { Pool } = require('pg')
+const NotFoundError = require('../exceptions/NotFoundError')
+const InvariantError = require('../exceptions/InvariantError')
 
 class AlbumsService {
   constructor() {
@@ -20,10 +22,21 @@ class AlbumsService {
     const result = await this._pool.query(query)
 
     if (!result.rows[0].id) {
-      throw new Error('catatan gagal ditambahkan')
+      throw new InvariantError('Album gagal ditambahkan')
     }
 
     return result.rows[0].id
+  }
+
+  async getAlbumById(id) {
+    const query = `SELECT * FROM albums WHERE id='${id}'`
+    const result = await this._pool.query(query)
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Album tidak ditemukan')
+    }
+
+    return result.rows[0]
   }
 }
 
