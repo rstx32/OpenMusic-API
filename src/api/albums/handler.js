@@ -52,6 +52,19 @@ class AlbumsHandler {
       })
       .code(200)
   }
+
+  // DELETE Album by Id
+  async deleteAlbumByIdHandler(request, h) {
+    const { id } = request.params
+    await this._service.deleteNoteById(id)
+
+    return h
+      .response({
+        status: 'success',
+        message: 'berhasil menghapus album',
+      })
+      .code(200)
+  }
 }
 
 module.exports = AlbumsHandler

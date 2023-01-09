@@ -54,6 +54,15 @@ class AlbumsService {
 
     return result.rows[0]
   }
+
+  async deleteNoteById(id) {
+    const query = `DELETE FROM albums WHERE id='${id}' RETURNING id`
+    const result = await this._pool.query(query)
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Album gagal dihapus, id tidak ditemukan')
+    }
+  }
 }
 
 module.exports = AlbumsService
