@@ -12,14 +12,6 @@ exports.up = (pgm) => {
       type: 'integer',
       notNull: true,
     },
-    created_at: {
-      type: 'date',
-      notNull: true,
-    },
-    updated_at: {
-      type: 'date',
-      notNull: true,
-    },
   })
   pgm.createTable('songs', {
     id: {
@@ -48,14 +40,6 @@ exports.up = (pgm) => {
     },
     albumId: {
       type: 'varchar(22)',
-      notNull: true,
-    },
-    created_at: {
-      type: 'date',
-      notNull: true,
-    },
-    updated_at: {
-      type: 'date',
       notNull: true,
     },
   })
