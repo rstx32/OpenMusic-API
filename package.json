@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@hapi/hapi": "^21.1.0",
+    "auto-bind": "^5.0.1",
     "dotenv": "^16.0.3",
     "joi": "^17.7.0",
     "nanoid": "^4.0.0",
@@ -13,7 +14,8 @@
   "main": "server.js",
   "scripts": {
     "lint": "eslint ./src",
-    "migrate": "node-pg-migrate"
+    "migrate": "node-pg-migrate",
+    "start": "node ./src/server.js"
   },
   "author": "rstx",
   "license": "ISC",
