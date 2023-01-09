@@ -9,11 +9,11 @@ const routes = (handler) => [
     path: '/albums/{id}',
     handler: (request, h) => handler.getAlbumByIdHandler(request, h),
   },
-  // {
-  //   method: 'PUT',
-  //   path: '/albums/{id}',
-  //   handler: handler.editAlbumByIdHandler,
-  // },
+  {
+    method: 'PUT',
+    path: '/albums/{id}',
+    handler: (request, h) => handler.putAlbumByIdHandler(request, h),
+  },
   // {
   //   method: 'DELETE',
   //   path: '/albums/{id}',

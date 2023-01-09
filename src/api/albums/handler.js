@@ -14,14 +14,12 @@ class AlbumsHandler {
     this._validator.validateAlbumPayload(request.payload)
     const { name, year } = request.payload
     const albumId = await this._service.addAlbum({ name, year })
-    const response = h
+    return h
       .response({
         status: 'success',
         data: { albumId },
       })
       .code(201)
-
-    return response
   }
 
   // GET Album by Id
@@ -35,6 +33,22 @@ class AlbumsHandler {
         data: {
           album,
         },
+      })
+      .code(200)
+  }
+
+  // EDIT Album by Id
+  async putAlbumByIdHandler(request, h) {
+    this._validator.validateAlbumPayload(request.payload)
+    const { id } = request.params
+    const { name, year } = request.payload
+    const album = await this._service.editAlbum(id, { name, year })
+
+    return h
+      .response({
+        status: 'success',
+        message: 'berhasil mengedit album',
+        data: { album },
       })
       .code(200)
   }
