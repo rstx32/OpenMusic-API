@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "hapi": "^18.1.0",
+    "joi": "^17.7.0",
+    "nanoid": "^4.0.0",
+    "node-pg-migrate": "^6.2.2",
+    "pg": "^8.8.0"
+  },
+  "name": "openmusic-api",
+  "version": "1.0.0",
+  "description": "open music api - dicoding",
+  "main": "server.js",
+  "scripts": {
+    "lint": "eslint ./src"
+  },
+  "author": "rstx",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.20"
+  }
+}
