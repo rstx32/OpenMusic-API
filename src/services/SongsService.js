@@ -11,6 +11,7 @@ class SongsService {
     this._pool = new Pool()
   }
 
+  // add a song
   async addSong({ title, year, performer, genre, duration, albumId }) {
     const id = `song-${nanoid(16)}`
 
@@ -28,6 +29,8 @@ class SongsService {
     return result.rows[0].id
   }
 
+  // get all songs
+  // get song with search query parameter : title / performer
   async getSongs({ title, performer }) {
     let query = ''
     if (title !== undefined && performer !== undefined) {
@@ -54,6 +57,7 @@ class SongsService {
     return result.rows
   }
 
+  // get single song by id
   async getSongById(id) {
     const query = `SELECT * FROM songs WHERE id='${id}'`
     const result = await this._pool.query(query)
@@ -65,6 +69,7 @@ class SongsService {
     return result.rows.map(mapDBToModel)[0]
   }
 
+  // edit a song
   async editSong(id, { title, year, performer, genre, duration, albumId }) {
     const query = {
       text: 'UPDATE songs SET title=$1, year=$2, performer=$3, genre=$4, duration=$5, album_id=$6 WHERE id=$7 RETURNING *',
@@ -80,6 +85,7 @@ class SongsService {
     return result.rows.map(mapDBToModel)[0]
   }
 
+  // delete a song
   async deleteSong(id) {
     const query = `DELETE FROM songs WHERE id='${id}' RETURNING id`
     const result = await this._pool.query(query)
