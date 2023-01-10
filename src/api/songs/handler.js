@@ -10,7 +10,7 @@ class SongsHandler {
     abind(this)
   }
 
-  // POST Album
+  // POST Song
   async postSongHandler(request, h) {
     this._validator.validateSongPayload(request.payload)
     const {
@@ -61,6 +61,36 @@ class SongsHandler {
         data: {
           song,
         },
+      })
+      .code(200)
+  }
+
+  // EDIT Song by Id
+  async putSongByIdHandler(request, h) {
+    this._validator.validateSongPayload(request.payload)
+    const { id } = request.params
+    const {
+      title,
+      year,
+      performer,
+      genre,
+      duration = null,
+      albumId = null,
+    } = request.payload
+    const song = await this._service.editSong(id, {
+      title,
+      year,
+      performer,
+      genre,
+      duration,
+      albumId,
+    })
+
+    return h
+      .response({
+        status: 'success',
+        message: 'berhasil mengedit lagu',
+        data: { song },
       })
       .code(200)
   }
