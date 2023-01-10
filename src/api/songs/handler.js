@@ -94,6 +94,19 @@ class SongsHandler {
       })
       .code(200)
   }
+
+  // DELETE Song by Id
+  async deleteSongByIdHandler(request, h) {
+    const { id } = request.params
+    await this._service.deleteSong(id)
+
+    return h
+      .response({
+        status: 'success',
+        message: 'berhasil menghapus lagu',
+      })
+      .code(200)
+  }
 }
 
 module.exports = SongsHandler

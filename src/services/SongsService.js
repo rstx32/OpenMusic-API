@@ -60,6 +60,15 @@ class SongsService {
 
     return result.rows.map(mapDBToModel)[0]
   }
+
+  async deleteSong(id) {
+    const query = `DELETE FROM songs WHERE id='${id}' RETURNING id`
+    const result = await this._pool.query(query)
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Lagu gagal dihapus, id tidak ditemukan')
+    }
+  }
 }
 
 module.exports = SongsService
