@@ -46,7 +46,7 @@ class AlbumsService {
     const result = await this._pool.query(query)
 
     if (!result.rows.length) {
-      throw new NotFoundError('Album gagal ditambahkan, id tidak ditemukan')
+      throw new NotFoundError('Album gagal diubah, id tidak ditemukan')
     }
 
     return result.rows[0]

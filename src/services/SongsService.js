@@ -22,7 +22,7 @@ class SongsService {
     const result = await this._pool.query(query)
 
     if (!result.rows[0].id) {
-      throw new InvariantError('Album gagal ditambahkan')
+      throw new InvariantError('Lagu gagal ditambahkan')
     }
 
     return result.rows[0].id
@@ -55,7 +55,7 @@ class SongsService {
     const result = await this._pool.query(query)
 
     if (!result.rows.length) {
-      throw new NotFoundError('Album gagal diubah, id tidak ditemukan')
+      throw new NotFoundError('Lagu gagal diubah, id tidak ditemukan')
     }
 
     return result.rows.map(mapDBToModel)[0]
