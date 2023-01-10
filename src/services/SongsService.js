@@ -33,6 +33,17 @@ class SongsService {
 
     return result.rows
   }
+
+  async getSongById(id) {
+    const query = `SELECT * FROM songs WHERE id='${id}'`
+    const result = await this._pool.query(query)
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Lagu tidak ditemukan')
+    }
+
+    return result.rows[0]
+  }
 }
 
 module.exports = SongsService

@@ -18,8 +18,8 @@ class SongsHandler {
       year,
       performer,
       genre,
-      duration = 'null',
-      albumId = 'null',
+      duration = null,
+      albumId = null,
     } = request.payload
     const songId = await this._service.addSong({
       title,
@@ -45,6 +45,21 @@ class SongsHandler {
         status: 'success',
         data: {
           songs,
+        },
+      })
+      .code(200)
+  }
+
+  // GET Song by Id
+  async getSongByIdHandler(request, h) {
+    const { id } = request.params
+    const song = await this._service.getSongById(id)
+
+    return h
+      .response({
+        status: 'success',
+        data: {
+          song,
         },
       })
       .code(200)
