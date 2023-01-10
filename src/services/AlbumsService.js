@@ -28,11 +28,15 @@ class AlbumsService {
 
   async getAlbumById(id) {
     const query = `SELECT * FROM albums WHERE id='${id}'`
+    const query2 = `SELECT id, title, performer FROM songs WHERE album_id='${id}'`
     const result = await this._pool.query(query)
+    const result2 = await this._pool.query(query2)
 
     if (!result.rows.length) {
       throw new NotFoundError('Album tidak ditemukan')
     }
+
+    result.rows[0].songs = result2.rows
 
     return result.rows[0]
   }
