@@ -36,6 +36,19 @@ class SongsHandler {
       })
       .code(201)
   }
+
+  // GET All Songs
+  async getSongsHandler(request, h) {
+    const songs = await this._service.getSongs()
+    return h
+      .response({
+        status: 'success',
+        data: {
+          songs,
+        },
+      })
+      .code(200)
+  }
 }
 
 module.exports = SongsHandler
