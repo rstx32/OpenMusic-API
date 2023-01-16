@@ -67,7 +67,7 @@ class SongsService {
       throw new NotFoundError('Lagu tidak ditemukan')
     }
 
-    return result.rows.map(mapDBToModel)[0]
+    return mapDBToModel(result.rows[0])
   }
 
   // edit a song
@@ -83,7 +83,7 @@ class SongsService {
       throw new NotFoundError('Lagu gagal diubah, id tidak ditemukan')
     }
 
-    return result.rows.map(mapDBToModel)[0]
+    return mapDBToModel(result.rows[0])
   }
 
   // delete a song

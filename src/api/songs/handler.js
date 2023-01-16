@@ -10,7 +10,6 @@ class SongsHandler {
     autoBind(this)
   }
 
-  // POST Song
   async postSongHandler(request, h) {
     this._validator.validateSongPayload(request.payload)
     const {
@@ -37,7 +36,6 @@ class SongsHandler {
       .code(201)
   }
 
-  // GET All Songs
   async getSongsHandler(request, h) {
     const { title, performer } = request.query
     const songs = await this._service.getSongs({ title, performer })
@@ -51,7 +49,6 @@ class SongsHandler {
       .code(200)
   }
 
-  // GET Song by Id
   async getSongByIdHandler(request, h) {
     const { id } = request.params
     const song = await this._service.getSongById(id)
@@ -66,7 +63,6 @@ class SongsHandler {
       .code(200)
   }
 
-  // EDIT Song by Id
   async putSongByIdHandler(request, h) {
     this._validator.validateSongPayload(request.payload)
     const { id } = request.params
@@ -96,7 +92,6 @@ class SongsHandler {
       .code(200)
   }
 
-  // DELETE Song by Id
   async deleteSongByIdHandler(request, h) {
     const { id } = request.params
     await this._service.deleteSong(id)

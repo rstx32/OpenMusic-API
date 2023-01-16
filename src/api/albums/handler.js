@@ -9,7 +9,6 @@ class AlbumsHandler {
     autoBind(this)
   }
 
-  // POST Album
   async postAlbumHandler(request, h) {
     this._validator.validateAlbumPayload(request.payload)
     const { name, year } = request.payload
@@ -22,7 +21,6 @@ class AlbumsHandler {
       .code(201)
   }
 
-  // GET Album by Id
   async getAlbumByIdHandler(request, h) {
     const { id } = request.params
     const album = await this._service.getAlbumById(id)
@@ -37,7 +35,6 @@ class AlbumsHandler {
       .code(200)
   }
 
-  // EDIT Album by Id
   async putAlbumByIdHandler(request, h) {
     this._validator.validateAlbumPayload(request.payload)
     const { id } = request.params
@@ -53,7 +50,6 @@ class AlbumsHandler {
       .code(200)
   }
 
-  // DELETE Album by Id
   async deleteAlbumByIdHandler(request, h) {
     const { id } = request.params
     await this._service.deleteNoteById(id)
