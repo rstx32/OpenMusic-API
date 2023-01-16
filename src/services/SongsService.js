@@ -1,10 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable object-curly-newline */
-const { Pool } = require('pg')
-const { nanoid } = require('nanoid')
-const NotFoundError = require('../exceptions/NotFoundError')
-const InvariantError = require('../exceptions/InvariantError')
-const mapDBToModel = require('../utils')
+import pg from 'pg'
+const { Pool } = pg
+import { nanoid } from 'nanoid'
+import NotFoundError from '../exceptions/NotFoundError.js'
+import InvariantError from '../exceptions/InvariantError.js'
+import mapDBToModel from '../utils/index.js'
 
 class SongsService {
   constructor() {
@@ -96,4 +97,4 @@ class SongsService {
   }
 }
 
-module.exports = SongsService
+export default SongsService

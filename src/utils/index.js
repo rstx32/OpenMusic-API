@@ -17,4 +17,4 @@ const mapDBToModel = ({
   albumId: album_id,
 })
 
-module.exports = mapDBToModel
+export default mapDBToModel

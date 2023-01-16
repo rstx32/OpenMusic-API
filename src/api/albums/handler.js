@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
-const abind = require('abind')
+import autoBind from 'auto-bind'
 
 class AlbumsHandler {
   constructor(service, validator) {
     this._service = service
     this._validator = validator
-    abind(this)
+    autoBind(this)
   }
 
   // POST Album
@@ -67,4 +67,4 @@ class AlbumsHandler {
   }
 }
 
-module.exports = AlbumsHandler
+export default AlbumsHandler

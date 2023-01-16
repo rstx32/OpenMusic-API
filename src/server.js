@@ -1,23 +1,19 @@
-/* eslint-disable new-cap */
-/* eslint-disable semi-style */
-/* eslint-disable no-console */
-
-const { config } = require('dotenv')
-const Hapi = require('@hapi/hapi')
-const albums = require('./api/albums')
-const songs = require('./api/songs')
-const AlbumsService = require('./services/AlbumsService')
-const SongsService = require('./services/SongsService')
-const AlbumValidator = require('./validator/albums')
-const SongValidator = require('./validator/songs')
-const ClientError = require('./exceptions/ClientError')
-
+import { server as _server } from '@hapi/hapi'
+import albums from './api/albums/index.js'
+import songs from './api/songs/index.js'
+import AlbumsService from './services/AlbumsService.js'
+import SongsService from './services/SongsService.js'
+import AlbumValidator from './validator/albums/index.js'
+import SongValidator from './validator/songs/index.js'
+import ClientError from './exceptions/ClientError.js'
+import { config } from 'dotenv'
 config({ path: '.env' })
+
 ;(async () => {
   const albumsService = new AlbumsService()
   const songsService = new SongsService()
 
-  const server = new Hapi.server({
+  const server = new _server({
     host: process.env.HOST,
     port: process.env.PORT,
     routes: {

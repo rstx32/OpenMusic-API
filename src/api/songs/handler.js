@@ -1,13 +1,13 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
-const abind = require('abind')
+import autoBind from 'auto-bind'
 
 class SongsHandler {
   constructor(service, validator) {
     this._service = service
     this._validator = validator
-    abind(this)
+    autoBind(this)
   }
 
   // POST Song
@@ -110,4 +110,4 @@ class SongsHandler {
   }
 }
 
-module.exports = SongsHandler
+export default SongsHandler

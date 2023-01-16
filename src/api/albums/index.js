@@ -1,7 +1,7 @@
-const AlbumsHandler = require('./handler')
-const routes = require('./routes')
+import AlbumsHandler from './handler.js'
+import routes from './routes.js'
 
-module.exports = {
+export default {
   name: 'albums',
   version: '1.0.0',
   register: async (server, { service, validator }) => {

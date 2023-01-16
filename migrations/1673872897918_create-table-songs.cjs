@@ -1,18 +1,8 @@
+/* eslint-disable camelcase */
+
+exports.shorthands = undefined
+
 exports.up = (pgm) => {
-  pgm.createTable('albums', {
-    id: {
-      type: 'varchar(22)',
-      primaryKey: true,
-    },
-    name: {
-      type: 'varchar(50)',
-      notNull: true,
-    },
-    year: {
-      type: 'integer',
-      notNull: true,
-    },
-  })
   pgm.createTable('songs', {
     id: {
       type: 'varchar(21)',
@@ -44,6 +34,5 @@ exports.up = (pgm) => {
 }
 
 exports.down = (pgm) => {
-  pgm.dropTable('albums')
   pgm.dropTable('songs')
 }

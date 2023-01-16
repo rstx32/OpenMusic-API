@@ -1,8 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-const { nanoid } = require('nanoid')
-const { Pool } = require('pg')
-const NotFoundError = require('../exceptions/NotFoundError')
-const InvariantError = require('../exceptions/InvariantError')
+import { nanoid } from 'nanoid'
+import pg from 'pg'
+const { Pool } = pg
+import NotFoundError from '../exceptions/NotFoundError.js'
+import InvariantError from '../exceptions/InvariantError.js'
 
 class AlbumsService {
   constructor() {
@@ -71,4 +72,4 @@ class AlbumsService {
   }
 }
 
-module.exports = AlbumsService
+export default AlbumsService
