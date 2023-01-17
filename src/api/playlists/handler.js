@@ -89,25 +89,13 @@ class PlaylistsHandler {
     const { id } = request.params
     const { id: credentialId } = request.auth.credentials
     const { songId } = request.payload
-    
+
     await this._service.verifyPlaylistOwner(id, credentialId)
+    await this._service.deletePlaylistSongById(id, songId)
 
-    try {
-      await this._service.deletePlaylistSongById(id, songId)
-
-      return {
-        status: 'success',
-        message: 'Lagu berhasil dihapus dari playlist',
-      }
-    } catch (error) {
-      if (error instanceof NotFoundError) {
-        return h
-          .response({
-            status: 'fail',
-            message: 'Lagu gagal dihapus dari playlist, lagu tidak ditemukan',
-          })
-          .code(400)
-      }
+    return {
+      status: 'success',
+      message: 'Lagu berhasil dihapus dari playlist',
     }
   }
 }
