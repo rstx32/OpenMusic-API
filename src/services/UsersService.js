@@ -15,7 +15,7 @@ class UsersService {
     const query = `SELECT * FROM users WHERE username='${username}'`
     const result = await this._pool.query(query)
 
-    if (result.rows.length > 0) {
+    if (result.rowCount > 0) {
       throw new InvariantError(
         'Gagal menambahkan user. Username sudah digunakan.'
       )
@@ -32,7 +32,7 @@ class UsersService {
     }
 
     const result = await this._pool.query(query)
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new InvariantError('User gagal ditambahkan')
     }
 
@@ -43,7 +43,7 @@ class UsersService {
     const query = `SELECT id, username, fullname FROM users WHERE id='${id}'`
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('User tidak ditemukan')
     }
     return result.rows[0]
@@ -53,7 +53,7 @@ class UsersService {
     const query = `SELECT id, password FROM users WHERE username='${username}'`
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new AuthenticationError('Kredensial yang Anda berikan salah')
     }
 

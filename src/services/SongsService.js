@@ -63,7 +63,7 @@ class SongsService {
     const query = `SELECT * FROM songs WHERE id='${id}'`
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu tidak ditemukan')
     }
 
@@ -79,7 +79,7 @@ class SongsService {
 
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu gagal diubah, id tidak ditemukan')
     }
 
@@ -91,7 +91,7 @@ class SongsService {
     const query = `DELETE FROM songs WHERE id='${id}' RETURNING id`
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu gagal dihapus, id tidak ditemukan')
     }
   }

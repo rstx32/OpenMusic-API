@@ -24,6 +24,11 @@ import AuthenticationsService from './services/AuthenticationsService.js'
 import TokenManager from './tokenize/TokenManager.js'
 import AuthenticationsValidator from './validator/authentications/index.js'
 
+// playlist
+import playlists from './api/playlists/index.js'
+import PlaylistService from './services/PlaylistsService.js'
+import PlaylistValidator from './validator/playlists/index.js'
+
 // error handling
 import ClientError from './exceptions/ClientError.js'
 
@@ -33,6 +38,7 @@ import ClientError from './exceptions/ClientError.js'
   const songsService = new SongsService()
   const usersService = new UsersService()
   const authenticationsService = new AuthenticationsService()
+  const playlistService = new PlaylistService()
 
   const server = new _server({
     host: process.env.HOST,
@@ -97,6 +103,13 @@ import ClientError from './exceptions/ClientError.js'
         usersService,
         tokenManager: TokenManager,
         validator: AuthenticationsValidator,
+      },
+    },
+    {
+      plugin: playlists,
+      options: {
+        service: playlistService,
+        validator: PlaylistValidator,
       },
     },
   ])
