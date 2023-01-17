@@ -1,17 +1,38 @@
 import { server as _server } from '@hapi/hapi'
-import albums from './api/albums/index.js'
-import songs from './api/songs/index.js'
-import AlbumsService from './services/AlbumsService.js'
-import SongsService from './services/SongsService.js'
-import AlbumValidator from './validator/albums/index.js'
-import SongValidator from './validator/songs/index.js'
-import ClientError from './exceptions/ClientError.js'
+import Jwt from '@hapi/jwt'
 import { config } from 'dotenv'
 config({ path: '.env' })
 
+// users
+import users from './api/users/index.js'
+import UsersService from './services/UsersService.js'
+import UsersValidator from './validator/users/index.js'
+
+// albums
+import albums from './api/albums/index.js'
+import AlbumsService from './services/AlbumsService.js'
+import AlbumValidator from './validator/albums/index.js'
+
+// songs
+import songs from './api/songs/index.js'
+import SongsService from './services/SongsService.js'
+import SongValidator from './validator/songs/index.js'
+
+// authentications
+import authentications from './api/authentications/index.js'
+import AuthenticationsService from './services/AuthenticationsService.js'
+import TokenManager from './tokenize/TokenManager.js'
+import AuthenticationsValidator from './validator/authentications/index.js'
+
+// error handling
+import ClientError from './exceptions/ClientError.js'
+
+// run server immediately
 ;(async () => {
   const albumsService = new AlbumsService()
   const songsService = new SongsService()
+  const usersService = new UsersService()
+  const authenticationsService = new AuthenticationsService()
 
   const server = new _server({
     host: process.env.HOST,
@@ -23,20 +44,62 @@ config({ path: '.env' })
     },
   })
 
-  await server.register({
-    plugin: albums,
-    options: {
-      service: albumsService,
-      validator: AlbumValidator,
+  // registrasi plugin eksternal
+  await server.register([
+    {
+      plugin: Jwt,
     },
-  })
-  await server.register({
-    plugin: songs,
-    options: {
-      service: songsService,
-      validator: SongValidator,
+  ])
+
+  // mendefinisikan strategy autentikasi jwt
+  server.auth.strategy('openmusic_jwt', 'jwt', {
+    keys: process.env.ACCESS_TOKEN_KEY,
+    verify: {
+      aud: false,
+      iss: false,
+      sub: false,
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE,
     },
+    validate: (artifacts) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id,
+      },
+    }),
   })
+
+  await server.register([
+    {
+      plugin: albums,
+      options: {
+        service: albumsService,
+        validator: AlbumValidator,
+      },
+    },
+    {
+      plugin: songs,
+      options: {
+        service: songsService,
+        validator: SongValidator,
+      },
+    },
+    {
+      plugin: users,
+      options: {
+        service: usersService,
+        validator: UsersValidator,
+      },
+    },
+    {
+      plugin: authentications,
+      options: {
+        authenticationsService,
+        usersService,
+        tokenManager: TokenManager,
+        validator: AuthenticationsValidator,
+      },
+    },
+  ])
 
   // error handling
   server.ext('onPreResponse', (request, h) => {
