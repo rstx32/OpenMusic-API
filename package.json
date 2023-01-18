@@ -11,7 +11,7 @@
     "pg": "^8.8.0"
   },
   "name": "openmusic-api",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "open music api - dicoding",
   "main": "server.js",
   "scripts": {
