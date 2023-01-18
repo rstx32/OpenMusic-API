@@ -175,6 +175,16 @@ class PlaylistsService {
     }
   }
 
+  async insertActivity(userId, playlistId, songId, type) {
+    const id = `activity-${nanoid(16)}`
+    const time = new Date().toISOString()
+    const query = {
+      text: 'INSERT INTO playlist_song_activities VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
+      values: [id, playlistId, songId, userId, type, time],
+    }
+    await this._pool.query(query)
+  }
+
   // only access by owner or collaborator
   async verifyPlaylistAccess(id, owner) {
     let query

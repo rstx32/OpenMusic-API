@@ -34,6 +34,10 @@ import collaborations from './api/collaborations/index.js'
 import CollaborationsService from './services/CollaborationsService.js'
 import CollaborationsValidator from './validator/collaborations/index.js'
 
+// activities
+import activities from './api/activities/index.js'
+import ActivitiesService from './services/ActivitiesService.js'
+
 // error handling
 import ClientError from './exceptions/ClientError.js'
 
@@ -45,6 +49,7 @@ import ClientError from './exceptions/ClientError.js'
   const authenticationsService = new AuthenticationsService()
   const playlistsService = new PlaylistsService()
   const collaborationsService = new CollaborationsService()
+  const activitiesService = new ActivitiesService()
 
   const server = new _server({
     host: process.env.HOST,
@@ -123,6 +128,12 @@ import ClientError from './exceptions/ClientError.js'
       options: {
         service: collaborationsService,
         validator: CollaborationsValidator,
+      },
+    },
+    {
+      plugin: activities,
+      options: {
+        service: activitiesService,
       },
     },
   ])

@@ -56,6 +56,7 @@ class PlaylistsHandler {
 
     await this._service.verifyPlaylistAccess(id, credentialId)
     await this._service.addPlaylistSong(id, songId)
+    await this._service.insertActivity(credentialId, id, songId, "add")
 
     return h
       .response({
@@ -88,6 +89,7 @@ class PlaylistsHandler {
 
     await this._service.verifyPlaylistAccess(id, credentialId)
     await this._service.deletePlaylistSongById(id, songId)
+    await this._service.insertActivity(credentialId, id, songId, "delete")
 
     return {
       status: 'success',
