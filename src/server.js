@@ -24,10 +24,15 @@ import AuthenticationsService from './services/AuthenticationsService.js'
 import TokenManager from './tokenize/TokenManager.js'
 import AuthenticationsValidator from './validator/authentications/index.js'
 
-// playlist
+// playlists
 import playlists from './api/playlists/index.js'
-import PlaylistService from './services/PlaylistsService.js'
+import PlaylistsService from './services/PlaylistsService.js'
 import PlaylistValidator from './validator/playlists/index.js'
+
+// collaborations
+import collaborations from './api/collaborations/index.js'
+import CollaborationsService from './services/CollaborationsService.js'
+import CollaborationsValidator from './validator/collaborations/index.js'
 
 // error handling
 import ClientError from './exceptions/ClientError.js'
@@ -38,7 +43,8 @@ import ClientError from './exceptions/ClientError.js'
   const songsService = new SongsService()
   const usersService = new UsersService()
   const authenticationsService = new AuthenticationsService()
-  const playlistService = new PlaylistService()
+  const playlistsService = new PlaylistsService()
+  const collaborationsService = new CollaborationsService()
 
   const server = new _server({
     host: process.env.HOST,
@@ -108,8 +114,15 @@ import ClientError from './exceptions/ClientError.js'
     {
       plugin: playlists,
       options: {
-        service: playlistService,
+        service: playlistsService,
         validator: PlaylistValidator,
+      },
+    },
+    {
+      plugin: collaborations,
+      options: {
+        service: collaborationsService,
+        validator: CollaborationsValidator,
       },
     },
   ])
