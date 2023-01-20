@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 exports.up = (pgm) => {
   pgm.addColumn('albums', {
     cover_url: {
