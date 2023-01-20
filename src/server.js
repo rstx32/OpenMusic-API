@@ -1,7 +1,6 @@
 import { server as _server } from '@hapi/hapi'
 import Jwt from '@hapi/jwt'
-import { config } from 'dotenv'
-config({ path: '.env' })
+import config from './utils/config.js'
 
 // users
 import users from './api/users/index.js'
@@ -38,6 +37,11 @@ import CollaborationsValidator from './validator/collaborations/index.js'
 import activities from './api/activities/index.js'
 import ActivitiesService from './services/ActivitiesService.js'
 
+// exports
+import _exports from './api/exports/index.js'
+import ProducerService from './services/rabbitmq/ProducerService.js'
+import ExportsValidator from './validator/exports/index.js'
+
 // error handling
 import ClientError from './exceptions/ClientError.js'
 
@@ -52,8 +56,8 @@ import ClientError from './exceptions/ClientError.js'
   const activitiesService = new ActivitiesService()
 
   const server = new _server({
-    host: process.env.HOST,
-    port: process.env.PORT,
+    host: config.app.host,
+    port: config.app.port,
     routes: {
       cors: {
         origin: ['*'],
@@ -70,12 +74,12 @@ import ClientError from './exceptions/ClientError.js'
 
   // mendefinisikan strategy autentikasi jwt
   server.auth.strategy('openmusic_jwt', 'jwt', {
-    keys: process.env.ACCESS_TOKEN_KEY,
+    keys: config.token.accessKey,
     verify: {
       aud: false,
       iss: false,
       sub: false,
-      maxAgeSec: process.env.ACCESS_TOKEN_AGE,
+      maxAgeSec: config.token.age,
     },
     validate: (artifacts) => ({
       isValid: true,
@@ -134,6 +138,13 @@ import ClientError from './exceptions/ClientError.js'
       plugin: activities,
       options: {
         service: activitiesService,
+      },
+    },
+    {
+      plugin: _exports,
+      options: {
+        service: ProducerService,
+        validator: ExportsValidator,
       },
     },
   ])
