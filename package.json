@@ -14,7 +14,7 @@
     "redis": "^4.5.1"
   },
   "name": "openmusic-api",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "open music api - dicoding",
   "main": "server.js",
   "scripts": {
