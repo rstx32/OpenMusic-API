@@ -3,6 +3,7 @@ import pg from 'pg'
 import NotFoundError from '../../exceptions/NotFoundError.js'
 import AuthorizationError from '../../exceptions/AuthorizationError.js'
 import config from '../../utils/config.js'
+
 const { Pool } = pg
 
 const ProducerService = {
@@ -22,7 +23,7 @@ const ProducerService = {
   },
 
   verifyPlaylistOwner: async (owner, id) => {
-    const query = `SELECT * FROM playlists`
+    const query = 'SELECT * FROM playlists'
     const result = await new Pool().query(query)
 
     if (result.rows[0].id !== id) {

@@ -14,7 +14,7 @@ const ImageHeadersSchema = Joi.object({
       'image/jpg',
       'image/jpeg',
       'image/png',
-      'image/webp'
+      'image/webp',
     )
     .required(),
 }).unknown()

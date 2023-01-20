@@ -18,21 +18,23 @@ class CollaborationsHandler {
 
     const collaborationId = await this._service.addCollaborations(
       playlistId,
-      userId
+      userId,
     )
 
-    return h.response({
-      status: 'success',
-      data: {
-        collaborationId,
-      },
-    }).code(201)
+    return h
+      .response({
+        status: 'success',
+        data: {
+          collaborationId,
+        },
+      })
+      .code(201)
   }
 
   async deleteCollaborationHandler(request, h) {
     const { playlistId, userId } = request.payload
-    const {id: credentialId} = request.auth.credentials
-    
+    const { id: credentialId } = request.auth.credentials
+
     await this._service.deleteCollaborations(playlistId, userId, credentialId)
 
     return {

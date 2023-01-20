@@ -3,6 +3,7 @@ import pg from 'pg'
 import AuthorizationError from '../exceptions/AuthorizationError.js'
 import InvariantError from '../exceptions/InvariantError.js'
 import NotFoundError from '../exceptions/NotFoundError.js'
+
 const { Pool } = pg
 
 class CollaborationsService {
@@ -53,7 +54,7 @@ class CollaborationsService {
 
   async checkExistingUser(id) {
     const isUserExist = await this._pool.query(
-      `SELECT * FROM users WHERE id='${id}'`
+      `SELECT * FROM users WHERE id='${id}'`,
     )
     if (!isUserExist.rowCount) {
       throw new NotFoundError('User tidak ditemukan')
@@ -62,7 +63,7 @@ class CollaborationsService {
 
   async checkExistingPlaylist(id, owner) {
     const playlist = await this._pool.query(
-      `SELECT * FROM playlists WHERE id='${id}'`
+      `SELECT * FROM playlists WHERE id='${id}'`,
     )
 
     if (!playlist.rowCount) {

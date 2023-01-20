@@ -1,11 +1,10 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable object-curly-newline */
 import pg from 'pg'
-const { Pool } = pg
 import { nanoid } from 'nanoid'
 import NotFoundError from '../exceptions/NotFoundError.js'
 import InvariantError from '../exceptions/InvariantError.js'
 import { mapDBToModel } from '../utils/index.js'
+
+const { Pool } = pg
 
 class SongsService {
   constructor() {
@@ -13,7 +12,9 @@ class SongsService {
   }
 
   // add a song
-  async addSong({ title, year, performer, genre, duration, albumId }) {
+  async addSong({
+    title, year, performer, genre, duration, albumId,
+  }) {
     const id = `song-${nanoid(16)}`
 
     const query = {
@@ -71,7 +72,9 @@ class SongsService {
   }
 
   // edit a song
-  async editSong(id, { title, year, performer, genre, duration, albumId }) {
+  async editSong(id, {
+    title, year, performer, genre, duration, albumId,
+  }) {
     const query = {
       text: 'UPDATE songs SET title=$1, year=$2, performer=$3, genre=$4, duration=$5, album_id=$6 WHERE id=$7 RETURNING *',
       values: [title, year, performer, genre, duration, albumId, id],

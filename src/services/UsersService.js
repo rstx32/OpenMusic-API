@@ -1,10 +1,11 @@
 import { nanoid } from 'nanoid'
 import pg from 'pg'
-const { Pool } = pg
 import bcrypt from 'bcrypt'
 import InvariantError from '../exceptions/InvariantError.js'
 import NotFoundError from '../exceptions/NotFoundError.js'
 import AuthenticationError from '../exceptions/AuthenticationError.js'
+
+const { Pool } = pg
 
 class UsersService {
   constructor() {
@@ -17,7 +18,7 @@ class UsersService {
 
     if (result.rowCount > 0) {
       throw new InvariantError(
-        'Gagal menambahkan user. Username sudah digunakan.'
+        'Gagal menambahkan user. Username sudah digunakan.',
       )
     }
   }

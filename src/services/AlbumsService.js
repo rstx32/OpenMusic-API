@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-underscore-dangle */
 import { nanoid } from 'nanoid'
 import fs from 'fs'
 import pg from 'pg'
@@ -116,8 +114,8 @@ class AlbumsService {
     const imageList = fs.readdirSync(this._folder)
 
     // if old file exist, then delete
-    imageList.forEach((imageList) => {
-      if (imageList === filename) {
+    imageList.forEach((img) => {
+      if (img === filename) {
         fs.unlinkSync(`${this._folder}/${filename}`)
       }
     })
@@ -167,7 +165,7 @@ class AlbumsService {
   async getLikesAlbum(albumId) {
     try {
       const result = await this._cacheService.get(`album-likes:${albumId}`)
-      const toNumber = parseInt(result)
+      const toNumber = parseInt(result, 10)
 
       return { likes: toNumber, cache: true }
     } catch (error) {
@@ -178,7 +176,7 @@ class AlbumsService {
       `
 
       const result = await this._pool.query(query)
-      const toNumber = parseInt(result.rows[0].count)
+      const toNumber = parseInt(result.rows[0].count, 10)
 
       await this._cacheService.set(`album-likes:${albumId}`, toNumber)
 

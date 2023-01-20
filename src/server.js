@@ -1,11 +1,9 @@
 import { server as _server } from '@hapi/hapi'
 import Jwt from '@hapi/jwt'
-import config from './utils/config.js'
 import Inert from '@hapi/inert'
 import path from 'path'
 import { fileURLToPath } from 'url'
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+import config from './utils/config.js'
 
 // users
 import users from './api/users/index.js'
@@ -53,12 +51,16 @@ import CacheService from './services/redis/CacheService.js'
 // error handling
 import ClientError from './exceptions/ClientError.js'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 // run server immediately
+// eslint-disable-next-line semi-style
 ;(async () => {
   const cacheService = new CacheService()
   const albumsService = new AlbumsService(
     path.resolve(__dirname, 'api/albums/file/images'),
-    cacheService
+    cacheService,
   )
   const songsService = new SongsService()
   const usersService = new UsersService()

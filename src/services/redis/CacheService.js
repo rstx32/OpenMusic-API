@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import redis from 'redis'
 
 class CacheService {

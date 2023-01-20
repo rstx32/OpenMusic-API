@@ -4,6 +4,7 @@ import InvariantError from '../exceptions/InvariantError.js'
 import NotFoundError from '../exceptions/NotFoundError.js'
 import AuthorizationError from '../exceptions/AuthorizationError.js'
 import ClientError from '../exceptions/ClientError.js'
+
 const { Pool } = pg
 
 class PlaylistsService {
@@ -170,7 +171,7 @@ class PlaylistsService {
 
     if (!result.rowCount) {
       throw new ClientError(
-        'Lagu gagal dihapus dari playlist, lagu tidak ditemukan'
+        'Lagu gagal dihapus dari playlist, lagu tidak ditemukan',
       )
     }
   }

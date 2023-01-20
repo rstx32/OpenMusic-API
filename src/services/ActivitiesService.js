@@ -1,6 +1,7 @@
 import pg from 'pg'
 import NotFoundError from '../exceptions/NotFoundError.js'
 import AuthorizationError from '../exceptions/AuthorizationError.js'
+
 const { Pool } = pg
 
 class ActivitiesService {
@@ -43,7 +44,7 @@ class ActivitiesService {
 
   async checkExistingPlaylist(id) {
     const result = await this._pool.query(
-      `SELECT * FROM playlists WHERE id='${id}'`
+      `SELECT * FROM playlists WHERE id='${id}'`,
     )
     if (!result.rowCount) {
       throw new NotFoundError('Playlist tidak ditemukan')
@@ -52,7 +53,7 @@ class ActivitiesService {
 
   async getPlaylistId(id) {
     const result = await this._pool.query(
-      `SELECT id FROM playlists WHERE id='${id}'`
+      `SELECT id FROM playlists WHERE id='${id}'`,
     )
 
     return result.rows[0].id

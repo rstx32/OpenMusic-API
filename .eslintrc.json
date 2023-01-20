@@ -1,7 +1,6 @@
 {
   "env": {
     "browser": true,
-    "commonjs": true,
     "es2021": true
   },
   "extends": "airbnb-base",
@@ -11,6 +10,9 @@
   },
   "rules": {
     "no-console": "off",
-    "semi": [2, "never"]
+    "semi": [2, "never"],
+    "no-underscore-dangle": "off",
+    "import/extensions": "off",
+    "no-unused-vars": "off"
   }
 }

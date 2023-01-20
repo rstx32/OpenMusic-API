@@ -1,6 +1,3 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable no-console */
-/* eslint-disable no-underscore-dangle */
 import autoBind from 'auto-bind'
 
 class SongsHandler {

@@ -1,6 +1,7 @@
 import pg from 'pg'
-const { Pool } = pg
 import InvariantError from '../exceptions/InvariantError.js'
+
+const { Pool } = pg
 
 class AuthenticationsService {
   constructor() {

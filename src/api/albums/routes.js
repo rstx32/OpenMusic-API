@@ -1,5 +1,6 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -58,7 +59,7 @@ const routes = (handler) => [
     method: 'GET',
     path: '/albums/{id}/likes',
     handler: (request, h) => handler.getLikesHandler(request, h),
-  }
+  },
 ]
 
 export default routes
