@@ -46,10 +46,8 @@ class AlbumsService {
       throw new NotFoundError('Album tidak ditemukan')
     }
 
-    // if album has songs
-    if (!result2.rowCount) {
-      result.rows[0].songs = result2.rows
-    }
+    // add songs to album
+    result.rows[0].songs = result2.rows
 
     // check if cover_url is not empty
     // then add URL for file address
@@ -106,7 +104,7 @@ class AlbumsService {
 
     if (!result.rows[0].id) {
       throw new NotFoundError(
-        'Sampul album gagal ditambahkan, id tidak ditemukan'
+        'Sampul album gagal ditambahkan, id tidak ditemukan',
       )
     }
   }
