@@ -5,7 +5,7 @@ const { Pool } = pg
 import { nanoid } from 'nanoid'
 import NotFoundError from '../exceptions/NotFoundError.js'
 import InvariantError from '../exceptions/InvariantError.js'
-import mapDBToModel from '../utils/index.js'
+import { mapDBToModel } from '../utils/index.js'
 
 class SongsService {
   constructor() {

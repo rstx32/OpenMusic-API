@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 import autoBind from 'auto-bind'
+import { mapAlbumDBToModel } from '../../utils/index.js'
 
 class AlbumsHandler {
   constructor(service, validator) {
@@ -23,7 +24,8 @@ class AlbumsHandler {
 
   async getAlbumByIdHandler(request, h) {
     const { id } = request.params
-    const album = await this._service.getAlbumById(id)
+    const result = await this._service.getAlbumById(id)
+    const album = mapAlbumDBToModel(result)
 
     return h
       .response({
@@ -60,6 +62,23 @@ class AlbumsHandler {
         message: 'berhasil menghapus album',
       })
       .code(200)
+  }
+
+  async postAlbumCoverHandler(request, h) {
+    const { cover } = request.payload
+    const { id } = request.params
+    this._validator.validateImageHeaders(cover.hapi.headers)
+
+    await this._service.checkExistingImage(id)
+    const filename = await this._service.writeFile(cover, cover.hapi)
+    await this._service.addCoverAlbum(filename, id)
+
+    return h
+      .response({
+        status: 'success',
+        message: 'Sampul berhasil diunggah'
+      })
+      .code(201)
   }
 }
 

@@ -1,6 +1,11 @@
 import { server as _server } from '@hapi/hapi'
 import Jwt from '@hapi/jwt'
 import config from './utils/config.js'
+import Inert from '@hapi/inert'
+import path from 'path'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // users
 import users from './api/users/index.js'
@@ -47,7 +52,9 @@ import ClientError from './exceptions/ClientError.js'
 
 // run server immediately
 ;(async () => {
-  const albumsService = new AlbumsService()
+  const albumsService = new AlbumsService(
+    path.resolve(__dirname, 'api/albums/file/images')
+  )
   const songsService = new SongsService()
   const usersService = new UsersService()
   const authenticationsService = new AuthenticationsService()
@@ -70,6 +77,9 @@ import ClientError from './exceptions/ClientError.js'
     {
       plugin: Jwt,
     },
+    {
+      plugin: Inert
+    }
   ])
 
   // mendefinisikan strategy autentikasi jwt
