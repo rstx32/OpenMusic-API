@@ -11,6 +11,6 @@
   },
   "rules": {
     "no-console": "off",
-    "semi": ["2", "never"]
+    "semi": [2, "never"]
   }
 }

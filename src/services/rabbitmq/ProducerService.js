@@ -1,8 +1,8 @@
 import amqp from 'amqplib'
+import pg from 'pg'
 import NotFoundError from '../../exceptions/NotFoundError.js'
 import AuthorizationError from '../../exceptions/AuthorizationError.js'
 import config from '../../utils/config.js'
-import pg from 'pg'
 const { Pool } = pg
 
 const ProducerService = {

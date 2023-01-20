@@ -1,15 +1,18 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-underscore-dangle */
 import { nanoid } from 'nanoid'
 import fs from 'fs'
 import pg from 'pg'
-const { Pool } = pg
 import NotFoundError from '../exceptions/NotFoundError.js'
 import InvariantError from '../exceptions/InvariantError.js'
 
+const { Pool } = pg
+
 class AlbumsService {
-  constructor(folder) {
+  constructor(folder, cacheService) {
     this._pool = new Pool()
     this._folder = folder
+    this._cacheService = cacheService
 
     if (!fs.existsSync(folder)) {
       fs.mkdirSync(folder, { recursive: true })
@@ -124,14 +127,13 @@ class AlbumsService {
 
   async actionLike(userId, albumId) {
     let query
-    let result
 
     // check if user was like the album
     query = `
       SELECT * FROM user_album_likes
       WHERE user_id='${userId}' AND album_id='${albumId}'
     `
-    result = await this._pool.query(query)
+    const result = await this._pool.query(query)
 
     if (!result.rowCount) {
       const id = `user_album-${nanoid(10)}`
@@ -140,17 +142,19 @@ class AlbumsService {
         values: [id, userId, albumId],
       }
       await this._pool.query(query)
+      await this._cacheService.delete(`album-likes:${albumId}`)
 
       return 'Berhasil menambah like'
-    } else {
-      query = `
-        DELETE FROM user_album_likes
-        WHERE user_id='${userId}' AND album_id='${albumId}'
-      `
-      await this._pool.query(query)
-
-      return 'Berhasil menghapus like'
     }
+
+    query = `
+      DELETE FROM user_album_likes
+      WHERE user_id='${userId}' AND album_id='${albumId}'
+    `
+    await this._pool.query(query)
+    await this._cacheService.delete(`album-likes:${albumId}`)
+
+    return 'Berhasil menghapus like'
   }
 
   async checkExistingAlbum(albumId) {
@@ -163,16 +167,25 @@ class AlbumsService {
   }
 
   async getLikesAlbum(albumId) {
-    const query = `
-      SELECT COUNT(*)
-      FROM user_album_likes
-      WHERE album_id='${albumId}'
-    `
+    try {
+      const result = await this._cacheService.get(`album-likes:${albumId}`)
+      const toNumber = parseInt(result)
 
-    const result = await this._pool.query(query)
-    const toNumber = parseInt(result.rows[0].count)
+      return { likes: toNumber, cache: true }
+    } catch (error) {
+      const query = `
+        SELECT COUNT(*)
+        FROM user_album_likes
+        WHERE album_id='${albumId}'
+      `
 
-    return toNumber
+      const result = await this._pool.query(query)
+      const toNumber = parseInt(result.rows[0].count)
+
+      await this._cacheService.set(`album-likes:${albumId}`, toNumber)
+
+      return { likes: toNumber, cache: false }
+    }
   }
 }
 

@@ -47,13 +47,18 @@ import _exports from './api/exports/index.js'
 import ProducerService from './services/rabbitmq/ProducerService.js'
 import ExportsValidator from './validator/exports/index.js'
 
+// cache
+import CacheService from './services/redis/CacheService.js'
+
 // error handling
 import ClientError from './exceptions/ClientError.js'
 
 // run server immediately
 ;(async () => {
+  const cacheService = new CacheService()
   const albumsService = new AlbumsService(
-    path.resolve(__dirname, 'api/albums/file/images')
+    path.resolve(__dirname, 'api/albums/file/images'),
+    cacheService
   )
   const songsService = new SongsService()
   const usersService = new UsersService()
@@ -78,8 +83,8 @@ import ClientError from './exceptions/ClientError.js'
       plugin: Jwt,
     },
     {
-      plugin: Inert
-    }
+      plugin: Inert,
+    },
   ])
 
   // mendefinisikan strategy autentikasi jwt
