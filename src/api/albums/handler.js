@@ -76,9 +76,35 @@ class AlbumsHandler {
     return h
       .response({
         status: 'success',
-        message: 'Sampul berhasil diunggah'
+        message: 'Sampul berhasil diunggah',
       })
       .code(201)
+  }
+
+  async postLikeHandler(request, h) {
+    const { id: albumId } = request.params
+    const { id: credentialId } = request.auth.credentials
+
+    await this._service.checkExistingAlbum(albumId)
+    const result = await this._service.actionLike(credentialId, albumId)
+
+    return h
+      .response({
+        status: 'success',
+        message: result,
+      })
+      .code(201)
+  }
+
+  async getLikesHandler(request, h) {
+    const { id: albumId } = request.params
+
+    const likes = await this._service.getLikesAlbum(albumId)
+
+    return h.response({
+      status: 'success',
+      data: { likes },
+    })
   }
 }
 

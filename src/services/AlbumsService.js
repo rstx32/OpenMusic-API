@@ -121,6 +121,59 @@ class AlbumsService {
       }
     })
   }
+
+  async actionLike(userId, albumId) {
+    let query
+    let result
+
+    // check if user was like the album
+    query = `
+      SELECT * FROM user_album_likes
+      WHERE user_id='${userId}' AND album_id='${albumId}'
+    `
+    result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      const id = `user_album-${nanoid(10)}`
+      query = {
+        text: 'INSERT INTO user_album_likes values($1, $2, $3) RETURNING id',
+        values: [id, userId, albumId],
+      }
+      await this._pool.query(query)
+
+      return 'Berhasil menambah like'
+    } else {
+      query = `
+        DELETE FROM user_album_likes
+        WHERE user_id='${userId}' AND album_id='${albumId}'
+      `
+      await this._pool.query(query)
+
+      return 'Berhasil menghapus like'
+    }
+  }
+
+  async checkExistingAlbum(albumId) {
+    const query = `SELECT * FROM albums WHERE id='${albumId}'`
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('Album tidak ditemukan')
+    }
+  }
+
+  async getLikesAlbum(albumId) {
+    const query = `
+      SELECT COUNT(*)
+      FROM user_album_likes
+      WHERE album_id='${albumId}'
+    `
+
+    const result = await this._pool.query(query)
+    const toNumber = parseInt(result.rows[0].count)
+
+    return toNumber
+  }
 }
 
 export default AlbumsService
